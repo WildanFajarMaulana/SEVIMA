@@ -51,7 +51,7 @@ $routes->get('/home/profile', 'DefaultPage::profile');
 $routes->get('/home/getDetailProfile', 'DefaultPage::getDetailProfile');
 $routes->get('/home/learning', 'DefaultPage::learning');
 $routes->get('/home/dataroom/(:any)', 'DefaultPage::dataroom/$1');
-$routes->get('/home/datatask/(:any)', 'DefaultPage::datatask/$1');
+$routes->get('/home/datatask/(:any)/(:any)', 'DefaultPage::datatask/$1/$2');
 $routes->get('/home/getKomentar', 'DefaultPage::getKomentar');
 
 $routes->post('/home/editProfile', 'DefaultPage::editProfile');
@@ -60,8 +60,8 @@ $routes->post('/home/addRoomLearning', 'DefaultPage::tambahRoomLearning');
 $routes->post('/home/addTask', 'DefaultPage::tambahTask');
 $routes->post("/home/deleteTask", 'DefaultPage::deleteTask');
 $routes->post("/home/addKomentar", 'DefaultPage::tambahKomentar');
-
-
+$routes->post("/home/joinRoom", 'DefaultPage::joinRoom');
+$routes->post("/home/konfirmasiJoinRoom", 'DefaultPage::konfirmasiJoinRoom');
 
 /*
  * --------------------------------------------------------------------

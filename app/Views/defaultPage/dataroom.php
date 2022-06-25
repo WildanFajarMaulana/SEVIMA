@@ -10,6 +10,7 @@
         </div>
     </div>
     <div class="row">
+        <?php if(session()->get('role')=='guru'){ ?>
         <div class="col-md ">
             <?php if($dataRoomGuru){ ?>
             <div class="button--addtaskdata mt-5">
@@ -22,7 +23,7 @@
                 <i class="fa-solid fa-trash-can btn-deletetask" data-id="<?= $dr['id'] ?>"></i>
                 <h5><?= $dr['judul'] ?></h5>
                 <p><?= $dr['sub_judul'] ?></p>
-                <button> <a href="/home/datatask/<?= $dr['id']?>"
+                <button> <a href="/home/datatask/<?= $dr['id']?>/<?= $id_room?>"
                         style="color:black;text-decoration:none">Action</a></button>
             </div>
             <?php }?>
@@ -53,6 +54,49 @@
             </div>
 
         </div>
+        <?php }?>
+        <?php }else{?>
+        <div class="col-md ">
+            <?php if($dataRoomGuru){ ?>
+
+            <?php  foreach($dataRoomGuru as $dr){?>
+
+            <div class="box--task">
+
+                <i></i>
+                <h5><?= $dr['judul'] ?></h5>
+                <p><?= $dr['sub_judul'] ?></p>
+                <button> <a href="/home/datatask/<?= $dr['id']?>/<?= $id_room?>"
+                        style="color:black;text-decoration:none">Action</a></button>
+            </div>
+            <?php }?>
+
+            <?php }else{?>
+            <div class="button--addtask">
+                <p>No Task For Now</p>
+            </div>
+            <?php }?>
+        </div>
+        <?php if($dataRoomGuru){ ?>
+        <div class="col-md-4">
+            <div class="box--inforoomsiswa">
+                <h5>List Siswa <span>(<?=$totalSiswaPerRoom['jumlah_siswa']?>)</span></h5>
+                <?php if($daftarSiswa){ ?>
+                <?php foreach($daftarSiswa as $ds){?>
+                <div class="profilSiswa">
+                    <img src="/images/<?= $ds['foto']?>" alt="">
+                    <p>Wildan Fajar Maulana</p>
+                    <p>Siswa</p>
+                </div>
+                <?php }?>
+                <?php }else{?>
+                <p style="color:grey">No users registered yet</p>
+                <?php }?>
+
+            </div>
+
+        </div>
+        <?php }?>
         <?php }?>
     </div>
     <div class="modal fade" id="addTask" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">

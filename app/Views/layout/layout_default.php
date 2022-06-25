@@ -38,7 +38,7 @@
     }
 
     .footer {
-        margin-top: 300px;
+        margin-top: 100px;
         margin-bottom: 50px;
         text-align: center;
         color: grey;

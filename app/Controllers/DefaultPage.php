@@ -6,6 +6,7 @@ use App\Models\RoomGuruModel;
 use App\Models\DataRoomGuruModel;
 use App\Models\RoomSiswaModel;
 use App\Models\DataCommentRoomModel;
+use App\Models\DataRoomSiswaModel;
 class DefaultPage extends BaseController
 {
     protected $ProfileModel;
@@ -13,12 +14,14 @@ class DefaultPage extends BaseController
     protected $DataRoomGuruModel;
     protected $RoomSiswaModel;
     protected $DataCommentRoomModel;
+    protected $DataRoomSiswaModel;
     public function __construct(){
         $this->RoomGuruModel = new RoomGuruModel();
         $this->ProfileModel = new ProfileModel();
         $this->RoomSiswaModel = new RoomSiswaModel();
         $this->DataRoomGuruModel = new DataRoomGuruModel();
         $this->DataCommentRoomModel = new DataCommentRoomModel();
+        $this->DataRoomSiswaModel = new DataRoomSiswaModel();
 
     }
     
@@ -34,7 +37,8 @@ class DefaultPage extends BaseController
     {
       
        $data['profile']=$this->ProfileModel->getProfileByUserLogin(session()->get('id'));
-       $data['roomGuru']=$this->RoomGuruModel->getRoomGuruByIdGuru($data['profile']['id']);
+       $data['roomGuru']=$this->RoomGuruModel->getRoomGuruByIdGuru(@$data['profile']['id']);
+       $data['roomSiswa']=$this->RoomSiswaModel->getRoomByIdSiswa(@$data['profile']['id']);
        $data['title']='W-Clashroom | Profile';
        $data['js']='profile.js';
        $data['css']='profile.css';
@@ -200,7 +204,8 @@ class DefaultPage extends BaseController
     public function learning()
     {
        $data['profilByIdLogin']=$this->ProfileModel->getProfileByUserLogin(session()->get('id'));
-       $data['roomGuru']=$this->RoomGuruModel->getRoomGuruByIdGuru($data['profilByIdLogin']['id']);
+       $data['roomGuru']=$this->RoomGuruModel->getRoomGuruByIdGuru(@$data['profilByIdLogin']['id']);
+       $data['roomSiswa']=$this->RoomSiswaModel->getRoomByIdSiswa(@$data['profilByIdLogin']['id']);
        $data['title']='W-Clashroom | Learning';
        $data['js']='learning.js';
        $data['css']='learning.css';
@@ -268,8 +273,17 @@ class DefaultPage extends BaseController
     public function dataroom($id)
     {
        $data['profilByIdLogin']=$this->ProfileModel->getProfileByUserLogin(session()->get('id'));
-       $data['dataRoomGuru']=$this->DataRoomGuruModel->getDataRoomByidguruIdroom( $data['profilByIdLogin']['id'],$id);
+       if(session()->get('role')=='guru'){
+        $data['dataRoomGuru']=$this->DataRoomGuruModel->getDataRoomByidguruIdroom( $data['profilByIdLogin']['id'],$id);
+       }else{
+            
+       $data['dataRoomSiswa']=$this->RoomSiswaModel->cekDaftarSiswaRoom( $data['profilByIdLogin']['id'],$id);
+       $data['dataRoomGuru']=$this->DataRoomGuruModel->getDataRoomByidguruIdroom(  $data['dataRoomSiswa']['id_guru'],$id);
+       }
+      
+    
        $data['daftarSiswa']=$this->RoomSiswaModel->getDaftarSiswaByidroom($id);
+       $data['totalSiswaPerRoom']=$this->RoomGuruModel->gettotalSiswaPerRoom($id);
        $data['roomGuru']=$this->RoomGuruModel->getRoomGuruByIdGuru($data['profilByIdLogin']['id']);
        $data['title']='W-Clashroom | DataRoom';
        $data['js']='dataroom.js';
@@ -361,14 +375,16 @@ class DefaultPage extends BaseController
         }
     }
     
-    public function datatask($id_task)
+    public function datatask($id_task,$id_room)
     {
        $data['profilByIdLogin']=$this->ProfileModel->getProfileByUserLogin(session()->get('id'));
        $data['getDataTask']=$this->DataRoomGuruModel->getDatatask($id_task);
+       $data['getDataSubmit']=$this->DataRoomSiswaModel->getDataSubmit($id_task);
        $data['title']='W-Clashroom | Datatask';
        $data['js']='datatask.js';
        $data['css']='datatask.css';
        $data['id_task']=$id_task;
+       $data['id_room']=$id_room;
        return view('defaultPage/datatask',$data);
     }
     public function tambahKomentar(){
@@ -402,5 +418,51 @@ class DefaultPage extends BaseController
         }else{
             exit('request tidak dapat dilakukan');
        }
+    }
+    public function joinRoom(){
+        if($this->request->isAjax()){
+            $data['cariRoom']=$this->RoomGuruModel->getRoomByKodeRoom($this->request->getPost('kode_room'));
+            if($data['cariRoom']){
+                $msg=[
+                    'success'=>'Room Found',
+                    'id_room'=>$data['cariRoom']['id_room']
+                ];
+            }else{
+                $msg=[
+                    'error'=>'Room Not Found'
+                ];
+            }
+            echo json_encode($msg);
+            
+        }else{
+            exit('request tidak dapat dilakukan');
+        }
+    }
+    public function konfirmasiJoinRoom(){
+        if($this->request->isAjax()){
+            $data['getRoom']=$this->RoomGuruModel->getRoomByIdRoom($this->request->getPost('id_room'));
+            
+            $data['profilByIdLogin']=$this->ProfileModel->getProfileByUserLogin(session()->get('id'));
+            $dataRoomSiswa=[
+                'id_room'=>$data['getRoom']['id_room'],
+                'id_siswa'=>$data['profilByIdLogin']['id'],
+                'id_guru'=>$data['getRoom']['id_guru'],
+                'status'=>'join'
+            ];
+
+            $this->RoomSiswaModel->save($dataRoomSiswa);
+           $dataRoomGuru=[
+            'id_room'=>$data['getRoom']['id_room'],
+            'jumlah_siswa'=>$data['getRoom']['jumlah_siswa']+1
+           ];
+           $this->RoomGuruModel->save($dataRoomGuru);
+           $msg=[
+            'success'=>"Congratulations, you have successfully joined"
+           ];
+            echo json_encode($msg);
+            
+        }else{
+            exit('request tidak dapat dilakukan');
+        }
     }
 }

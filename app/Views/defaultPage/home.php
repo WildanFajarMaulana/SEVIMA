@@ -25,10 +25,18 @@
 
             <div class="boxButton">
                 <?php if(session()->get('role')=="siswa"){?>
-                <button style="width:80%">Join</button>
+                <?php if($profilByIdLogin){?>
+                <button style="width:80%" class="joinlink">Join</button>
                 <?php }else{?>
+                <button style="width:80%" class="joinlinknoprofile">Join</button>
+                <?php }?>
+                <?php }else{?>
+                <?php if($profilByIdLogin){?>
+                <button style="width:80%" class="createlink">Create</button>
+                <?php }else{?>
+                <button style="width:80%" class="createlinknoprofile">Create</button>
+                <?php }?>
 
-                <button style="width:80%">Create</button>
                 <?php }?>
 
 

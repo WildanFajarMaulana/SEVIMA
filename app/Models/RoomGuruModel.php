@@ -20,4 +20,13 @@ class RoomGuruModel extends Model
         return $this->join('tb_profile','tb_profile.id=tb_roomguru.id_guru')->where(['id_guru'=>$id_guru])->find();  
     }
 
+    public function getRoomByKodeRoom($kode_room){
+        return $this->where(['kode_room'=>$kode_room])->first();
+    }
+    public function getRoomByIdRoom($id_room){
+        return $this->where(['id_room'=>$id_room])->first();
+    }
+    public function gettotalSiswaPerRoom($id){
+        return $this->where(['id_room'=>$id])->first();
+    }
 }

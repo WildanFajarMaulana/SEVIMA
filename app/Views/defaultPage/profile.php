@@ -11,7 +11,7 @@
                 <div class="card-body">
                     <h5>Detail Profile</h5>
                     <span>Nama : </span>
-                    <span><?= $profile['nama'] ?></span>
+                    <span><?= $profile['nama'] ?> (<?= session()->get('role')?>)</span>
                     <br>
                     <span>Alamat :</span>
                     <span><?= $profile['alamat'] ?></span>
@@ -24,6 +24,7 @@
         <div class=" col right--profile">
             <?php if(session()->get('role')=='guru'){?>
             <h4>List My Learning Room</h4>
+            <?php if($roomGuru){ ?>
             <?php foreach($roomGuru as $rg){ ?>
             <div class="boxLearning">
                 <h4><?= $rg['nama_pembelajaran'] ?></h4>
@@ -32,10 +33,25 @@
                     <p class="p-link">Go</p>
                 </a>
             </div>
-
             <?php }?>
             <?php }else{?>
-
+            <p>You Haven't Created a Room</p>
+            <?php }?>
+            <?php }else{?>
+            <h4>List My Learning Room</h4>
+            <?php if($roomSiswa){?>
+            <?php foreach($roomSiswa as $rg){ ?>
+            <div class="boxLearning">
+                <h4><?= $rg['nama_pembelajaran'] ?></h4>
+                <p><?= $rg['kelas'] ?></p>
+                <a href="/home/dataroom/<?= $rg['id_room'] ?>">
+                    <p class="p-link">Go</p>
+                </a>
+            </div>
+            <?php }?>
+            <?php }else{?>
+            <p>You Haven't Joined Room</p>
+            <?php }?>
             <?php }?>
         </div>
     </div>
