@@ -10,6 +10,40 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css"
         integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
     <link rel="stylesheet" href="/css/default/<?= $css ?>">
+    <style>
+    * {
+        box-sizing: border-box;
+    }
+
+    body {
+        margin: 0;
+    }
+
+    .navbar {
+        padding: 20px;
+        border-bottom: 2px solid #f2f2f2;
+        background-color: white;
+    }
+
+    .navbar-brand {
+        font-weight: bold;
+    }
+
+    .span-navbar {
+        color: #e03e3e;
+    }
+
+    ul>li {
+        margin-left: 20px;
+    }
+
+    .footer {
+        margin-top: 200px;
+        margin-bottom: 50px;
+        text-align: center;
+        color: grey;
+    }
+    </style>
 
     <title><?= $title ?></title>
 </head>

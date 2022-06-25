@@ -14,4 +14,14 @@ class DefaultPage extends BaseController
        $data['css']='home.css';
        return view('defaultPage/home',$data);
     }
+    public function profile()
+    {
+        if(session()->get('id') && session()->get('username') && session()->get('role')){
+            return redirect()->to('/app/home.html'); 
+       }
+       $data['title']='W-Clashroom | Profile';
+       $data['js']='profile.js';
+       $data['css']='profile.css';
+       return view('defaultPage/profile',$data);
+    }
 }

@@ -42,6 +42,7 @@ $routes->get('/register', 'Auth::register');
 
 // DEFAULT PAGE
 $routes->get('/home/', 'DefaultPage::index');
+$routes->get('/home/profile', 'DefaultPage::profile');
 
 
 $routes->post('/auth/register', 'Auth::prosesRegister');

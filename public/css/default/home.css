@@ -1,16 +1,5 @@
-.navbar {
-  padding: 20px;
-  border-bottom: 2px solid #f2f2f2;
-  background-color: white;
-}
-.navbar-brand {
-  font-weight: bold;
-}
 span {
   color: #e03e3e;
-}
-ul > li {
-  margin-left: 20px;
 }
 .jumbotron--row {
   margin-top: 100px;
@@ -93,7 +82,7 @@ ul > li {
   margin-top: 300px;
   width: 100%;
   min-height: 100px;
-  margin-bottom: 100px;
+  margin-bottom: 150px;
   padding: 10px;
 }
 .box--info {
@@ -108,4 +97,32 @@ ul > li {
 .contentInfo {
   display: flex;
   flex-direction: column;
+  padding: 10%;
+  text-align: center;
+}
+.contentInfo > :nth-child(1) {
+  font-size: 40px;
+}
+.contentInfo > :nth-child(2) {
+  padding-top: 20px;
+  font-size: 15px;
+}
+.contentInfo > :nth-child(3) {
+  padding-top: 5px;
+  font-size: 13px;
+  color: grey;
+}
+.content--info {
+  margin-bottom: 100px;
+}
+.box--about > :nth-child(2) {
+  margin-top: 30px;
+  max-width: 80%;
+  color: grey;
+}
+.rate {
+  margin-top: 140px;
+}
+.rate > * {
+  color: gold;
 }

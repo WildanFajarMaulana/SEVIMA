@@ -1,37 +1,7 @@
 <?= $this->extend('layout/layout_default'); ?>
 <?= $this->section('content'); ?>
-<nav class="navbar navbar-expand-lg navbar-light">
-    <div class="container">
-        <a class="navbar-brand" href="#">W-<span>CLASHROOM</span></a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
-            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav ml-auto ">
-                <li class="nav-item active">
-                    <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Learning</a>
-                </li>
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
-                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Setting
-                    </a>
-                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <a class="dropdown-item" href="#">Profile</a>
-                        <a class="dropdown-item" href="#">Edit Profile</a>
-                        <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="#">Logout</a>
-                    </div>
-                </li>
-            </ul>
-        </div>
-    </div>
 
-</nav>
+<?=$this->include('component/topbar')?>
 
 <div class="container">
     <!-- jumbotron -->
@@ -47,15 +17,15 @@
                 <p>Halo....</p>
             </div>
             <div class="infoKedua">
-                <p>Selamat Datang</p>
+                <p>Welcome :)</p>
             </div>
             <div class="infoKetiga">
-                <p>Jangan Lupa Gabung Pembelajaran Ya!</p>
+                <p>Don't Forget to Join Learning Yes!</p>
             </div>
 
             <div class="boxButton">
-                <button>Gabung</button>
-                <button>Buat</button>
+                <button>Join</button>
+                <button>Create</button>
             </div>
         </div>
     </div>
@@ -66,19 +36,51 @@
         <div class="col box--info">
             <div class="contentInfo">
                 <i class="fa-solid fa-question"></i>
+                <h5>Why Should You Try It?</h5>
+                <p>Many challenging lessons that you can follow</p>
             </div>
         </div>
         <div class="col box--info">
             <div class="contentInfo">
                 <i class="fa-solid fa-exclamation"></i>
+                <h5>immediately follow a lot of learning</h5>
+                <p>Later there will be tasks <br>that you can do</p>
             </div>
         </div>
         <div class="col box--info">
             <div class="contentInfo">
                 <i class="fa-solid fa-check"></i>
+                <h5>Made With The Best Possible
+                </h5>
+                <p>can be used in activities between teachers and studentsts</p>
             </div>
         </div>
     </div>
+
+
+
+    <div class="row content--info">
+        <div class="col box--about">
+            <h3>W-CLASSROOM-<span>INFO</span></h3>
+            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Facere a quisquam, magnam pariatur mollitia
+                accusamus obcaecati necessitatibus quia, veritatis eius dolorem. Saepe dolorum aliquam perspiciatis
+                suscipit! Nemo tempore porro recusandae.</p>
+
+            <div class="rate">
+                <i class="fa-solid fa-star"></i>
+                <i class="fa-solid fa-star"></i>
+                <i class="fa-solid fa-star"></i>
+                <i class="fa-solid fa-star"></i>
+                <i class="fa-solid fa-star"></i>
+            </div>
+        </div>
+        <div class="col ">
+            <img src="/images/education.svg" alt="" width="100%">
+        </div>
+    </div>
     <!-- endcontent -->
+
+    <?=$this->include('component/footer')?>
+
 </div>
 <?= $this->endSection() ?>
