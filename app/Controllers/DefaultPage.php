@@ -7,6 +7,7 @@ use App\Models\DataRoomGuruModel;
 use App\Models\RoomSiswaModel;
 use App\Models\DataCommentRoomModel;
 use App\Models\DataRoomSiswaModel;
+use App\Models\KirimModel;
 class DefaultPage extends BaseController
 {
     protected $ProfileModel;
@@ -15,6 +16,7 @@ class DefaultPage extends BaseController
     protected $RoomSiswaModel;
     protected $DataCommentRoomModel;
     protected $DataRoomSiswaModel;
+    protected $KirimModel;
     public function __construct(){
         $this->RoomGuruModel = new RoomGuruModel();
         $this->ProfileModel = new ProfileModel();
@@ -22,6 +24,7 @@ class DefaultPage extends BaseController
         $this->DataRoomGuruModel = new DataRoomGuruModel();
         $this->DataCommentRoomModel = new DataCommentRoomModel();
         $this->DataRoomSiswaModel = new DataRoomSiswaModel();
+        $this->KirimModel = new KirimModel();
 
     }
     
@@ -277,11 +280,12 @@ class DefaultPage extends BaseController
         $data['dataRoomGuru']=$this->DataRoomGuruModel->getDataRoomByidguruIdroom( $data['profilByIdLogin']['id'],$id);
        }else{
             
-       $data['dataRoomSiswa']=$this->RoomSiswaModel->cekDaftarSiswaRoom( $data['profilByIdLogin']['id'],$id);
-       $data['dataRoomGuru']=$this->DataRoomGuruModel->getDataRoomByidguruIdroom(  $data['dataRoomSiswa']['id_guru'],$id);
+       $data['dataRoomSiswa']=$this->RoomSiswaModel->cekDaftarSiswaRoom(@$data['profilByIdLogin']['id'],$id);
+       $data['dataRoomGuru']=$this->DataRoomGuruModel->getDataRoomByidguruIdroom(@$data['dataRoomSiswa']['id_guru'],$id);
+       
        }
       
-    
+       
        $data['daftarSiswa']=$this->RoomSiswaModel->getDaftarSiswaByidroom($id);
        $data['totalSiswaPerRoom']=$this->RoomGuruModel->gettotalSiswaPerRoom($id);
        $data['roomGuru']=$this->RoomGuruModel->getRoomGuruByIdGuru($data['profilByIdLogin']['id']);
@@ -379,7 +383,14 @@ class DefaultPage extends BaseController
     {
        $data['profilByIdLogin']=$this->ProfileModel->getProfileByUserLogin(session()->get('id'));
        $data['getDataTask']=$this->DataRoomGuruModel->getDatatask($id_task);
-       $data['getDataSubmit']=$this->DataRoomSiswaModel->getDataSubmit($id_task);
+       if(session()->get('role')=='siswa'){
+        $data['submitJawaban']=$this->DataRoomSiswaModel->getDataSubmitByIdtaskIdroomSiswa($id_task,$data['profilByIdLogin']['id']);
+        $data['kirimJawaban']=$this->KirimModel->getDataKirimSiswa($id_task,$id_room,$data['profilByIdLogin']['id']);
+       }else{
+        $data['submitJawaban']=$this->DataRoomSiswaModel->getDataSubmitByIdtaskIdroomSiswaAll($id_task);
+        $data['kirimJawaban']=$this->KirimModel->getDataKirimSiswaAll($id_task,$id_room);
+       }
+    
        $data['title']='W-Clashroom | Datatask';
        $data['js']='datatask.js';
        $data['css']='datatask.css';
@@ -464,5 +475,163 @@ class DefaultPage extends BaseController
         }else{
             exit('request tidak dapat dilakukan');
         }
+    }
+    public function submitTask(){
+        if($this->request->isAjax()){
+            $validation=\Config\Services::validation();
+            $valid=$this->validate([
+                'gambar'=>[
+                    'rules'=>'max_size[gambar,1024]|is_image[gambar]|mime_in[gambar,image/jpg,image/jpeg,image/png]',
+                    'errors'=>[
+                        'max_size'=>'image size is too big',
+                        'is_image'=>'what you choose is not a picture',
+                        'mime_in'=>'Incorrect format'
+                    ]
+            ]
+            
+            ]);
+
+              if(!$valid){
+                $msg=[
+                    'error'=>[
+                        'gambar'=>$validation->getError('gambar')
+                    ]
+                ];               
+              }else{
+                $data['profilByIdLogin']=$this->ProfileModel->getProfileByUserLogin(session()->get('id'));
+                 
+                $fileFoto=$this->request->getFile('gambar');
+                
+            
+                $namaFoto=$fileFoto->getRandomName();
+               
+                $fileFoto->move('images',$namaFoto);
+                
+               
+                $dataSubmit=[
+                    'id_dataroom'=>$this->request->getPost('id_task'),
+                    'id_siswa'=>$data['profilByIdLogin']['id'],
+                    'gambar'=>$namaFoto,
+                    'status'=>'none'
+                ];
+                $this->DataRoomSiswaModel->save($dataSubmit);
+                $msg=[
+                    'success'=>'Berhasil Upload',
+                    'id_task'=>$this->request->getPost('id_task'),
+                    'id_room'=>$this->request->getPost('id_room')
+                ];
+                
+               
+              
+            
+              }
+              echo json_encode($msg);
+        }else{
+            exit('request tidak dapat dilakukan');
+        }
+    }
+    public function getDetailSubmit(){
+        if($this->request->isAjax()){
+            $dataSubmit=$this->DataRoomSiswaModel->getDetailById($this->request->getGet('id'));
+            $mhs=[
+                'data'=>$dataSubmit
+            ];
+            echo json_encode($mhs);
+        }else{
+            exit('request tidak dapat dilakukan');
+        }
+    }
+    public function kirimTask(){
+        if($this->request->isAjax()){
+            $data['profilByIdLogin']=$this->ProfileModel->getProfileByUserLogin(session()->get('id'));
+            $resultSubmitSiswa=$this->DataRoomSiswaModel->getResultSubmit($this->request->getPost('id_task'),$data['profilByIdLogin']['id']);
+        
+            $totalSubmitFilter=$this->DataRoomSiswaModel->totalSubmitFilter($this->request->getPost('id_task'),$data['profilByIdLogin']['id']);
+            $dataKirim=[
+                'id_task'=>$this->request->getPost('id_task'),
+                'id_room'=>$this->request->getPost('id_room'),
+                'id_siswa'=>$data['profilByIdLogin']['id'],
+                'nama'=>$data['profilByIdLogin']['nama'],
+                'gambar'=>$data['profilByIdLogin']['foto'],
+                'status'=>"kirim"
+            ];
+            $this->KirimModel->save($dataKirim);
+            $dataNewKirim=$this->KirimModel->getDataNewKirim($this->request->getPost('id_task'),$this->request->getPost('id_room'),$data['profilByIdLogin']['id']);
+            $dataSubmit=array();
+            $dataSubmit2=[];
+            foreach($resultSubmitSiswa as $ds){
+                array_push($dataSubmit,array(
+                    'id'=>$ds['id'],
+                    'status'=>'terkirim',
+                    'id_kirim'=>$dataNewKirim['id']
+                ));
+                $dataSubmit2=[
+                    'id'=>$ds['id'],
+                    'status'=>'terkirim',
+                    'id_kirim'=>$dataNewKirim['id']
+                ];
+            }
+            if($totalSubmitFilter==1){
+                $this->DataRoomSiswaModel->save($dataSubmit2);
+            }else{
+                $this->DataRoomSiswaModel->updateBatch($dataSubmit,'id');
+            }
+          
+            $mhs=[
+                'success'=>'Success Kirim'
+            ];
+            echo json_encode($mhs);
+        }else{
+            exit('request tidak dapat dilakukan');
+        }
+    }
+    public function cancelTask(){
+        if($this->request->isAjax()){
+            $data['profilByIdLogin']=$this->ProfileModel->getProfileByUserLogin(session()->get('id'));
+           
+            
+            $resultSubmitSiswa=$this->DataRoomSiswaModel->getResultSubmit($this->request->getPost('id_task'),$data['profilByIdLogin']['id']);
+        
+            $totalSubmitFilter=$this->DataRoomSiswaModel->totalSubmitFilter($this->request->getPost('id_task'),$data['profilByIdLogin']['id']);
+            $dataSubmit=array();
+            $dataSubmit2=[];
+            foreach($resultSubmitSiswa as $ds){
+                array_push($dataSubmit,array(
+                    'id'=>$ds['id'],
+                    'status'=>'none',
+                    'id_kirim'=>0
+                ));
+                $dataSubmit2=[
+                    'id'=>$ds['id'],
+                    'status'=>'none',
+                    'id_kirim'=>0
+                ];
+            }
+            if($totalSubmitFilter==1){
+                $this->DataRoomSiswaModel->save($dataSubmit2);
+            }else{
+                $this->DataRoomSiswaModel->updateBatch($dataSubmit,'id');
+            }
+            $this->KirimModel->deteleKirim($this->request->getPost('id_task'),$this->request->getPost('id_room'),$data['profilByIdLogin']['id']);
+            $mhs=[
+                'success'=>'Success Cancel'
+            ];
+            echo json_encode($mhs);
+        }else{
+            exit('request tidak dapat dilakukan');
+        }
+    }
+    public function getDetailKiirm(){
+        if($this->request->isAjax()){
+            $data['getKomentar']=$this->DataCommentRoomModel->getKomentarByidtask($this->request->getGet('id_task'));
+            
+            $msg=[
+               'data'=>view('component/komentar',$data)
+            ];
+            $msg['token']=csrf_hash();
+            echo json_encode($msg);
+        }else{
+            exit('request tidak dapat dilakukan');
+       }
     }
 }

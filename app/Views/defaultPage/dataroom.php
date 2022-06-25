@@ -38,11 +38,11 @@
         <?php if($dataRoomGuru){ ?>
         <div class="col-md-4">
             <div class="box--inforoom">
-                <h5>List Siswa</h5>
+                <h5>List Siswa <span>(<?=$totalSiswaPerRoom['jumlah_siswa']?>)</span></h5>
                 <?php if($daftarSiswa){ ?>
                 <?php foreach($daftarSiswa as $ds){?>
                 <div class="profilSiswa">
-                    <img src="/images/defaultprofile.jpg" alt="">
+                    <img src="/images/<?= $ds['foto']?>" alt="">
                     <p>Wildan Fajar Maulana</p>
                     <p>Siswa</p>
                 </div>
