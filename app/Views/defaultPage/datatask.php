@@ -77,6 +77,7 @@
                     <img src="/images/<?= $sj['gambar'] ?>" alt="" width="20%">
                     <button class="detailSubmit" data-id="<?= $sj['id'] ?>" data-toggle="modal"
                         data-target="#detailTask">Detail</button>
+                    <i class="fa-solid fa-trash-can deleteDetailTask" data-id="<?= $sj['id'] ?>"></i>
                 </div>
                 <?php }?>
                 <input type="hidden" name="id_task" class="id_task" value="<?= $id_task ?>">
@@ -105,24 +106,15 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <form action="/home/submitTask" class="formSubmitTask">
+                <form action="/home/acceptTask" class="formAcceptTask">
                     <input type="hidden" name="id_task" class="id_task" value="<?= $id_task ?>">
-
                     <input type="hidden" name="id_room" class="id_room" value="<?= $id_room ?>">
                     <div class="modal-body body-detail-task-kirim">
-
-                        <div class="form-group ">
-                            <label for="textInput">Nilai</label>
-
-                            <input type="text" name="Nilai" id="nilai" ">
-                        </div>
-                        <p class=" d-none" id="nilai"></p>
-
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                            <button type="submit" class="btn btn-danger btn-submittask">Submit</button>
-                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-danger btn-submittask">Submit</button>
+                    </div>
                 </form>
             </div>
         </div>

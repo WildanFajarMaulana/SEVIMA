@@ -140,7 +140,7 @@
             </div>
         </div>
     </div>
-
+    <div style="margin-bottom:300px"></div>
     <?=$this->include('component/footer')?>
 
 </div>

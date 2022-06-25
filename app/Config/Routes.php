@@ -40,10 +40,10 @@ $routes->set404Override();
 $routes->get('/', 'Auth::index');
 $routes->get('/register', 'Auth::register');
 
-
 $routes->post('/auth/register', 'Auth::prosesRegister');
 $routes->post('/auth/login', 'Auth::prosesLogin');
 $routes->post('/auth/logout', 'Auth::logout');
+
 
 // DEFAULT PAGE
 $routes->get('/home/', 'DefaultPage::index');
@@ -54,7 +54,7 @@ $routes->get('/home/dataroom/(:any)', 'DefaultPage::dataroom/$1');
 $routes->get('/home/datatask/(:any)/(:any)', 'DefaultPage::datatask/$1/$2');
 $routes->get('/home/getKomentar', 'DefaultPage::getKomentar');
 $routes->get('/home/getDetailSubmit', 'DefaultPage::getDetailSubmit');
-
+$routes->get('/home/getDetailKirim', 'DefaultPage::getDetailKirim');
 
 $routes->post('/home/editProfile', 'DefaultPage::editProfile');
 $routes->post('/home/addProfile', 'DefaultPage::tambahProfile');
@@ -67,6 +67,25 @@ $routes->post("/home/konfirmasiJoinRoom", 'DefaultPage::konfirmasiJoinRoom');
 $routes->post("/home/submitTask", 'DefaultPage::submitTask');
 $routes->post("/home/kirimTask", 'DefaultPage::kirimTask');
 $routes->post("/home/cancelTask", 'DefaultPage::cancelTask');
+$routes->post("/home/acceptTask", 'DefaultPage::acceptTask');
+$routes->post("/home/hapusDetailTask", 'DefaultPage::hapusDetailTask');
+
+$routes->get('/admin/', 'Admin::index');
+$routes->get('/admin/account', 'Admin::account');
+$routes->get('/admin/roomguru', 'Admin::roomguru');
+$routes->get('/admin/roomsiswa', 'Admin::roomsiswa');
+$routes->get('/admin/roomcomment', 'Admin::roomcomment');
+$routes->get('/admin/dataroomguru', 'Admin::dataroomguru');
+$routes->get('/admin/dataroomsiswa', 'Admin::dataroomsiswa');
+$routes->get('/admin/logout', 'Admin::logout');
+
+
+
+
+
+
+
+
 /*
  * --------------------------------------------------------------------
  * Additional Routing

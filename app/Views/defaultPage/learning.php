@@ -35,11 +35,10 @@
         <div class="col">
             <div class="box--learning">
                 <img src="/images/learning.svg" alt="" width="100%">
-                <button>Join</button>
+
                 <?php if($profilByIdLogin){?>
                 <button type="button" data-toggle="modal" style="width:90%" data-target="#addRoom">Create</button>
                 <?php }else{?>
-
                 <button type="button" style="width:90%" class="createnoprofile">Create</button>
                 <?php }?>
 
@@ -80,7 +79,6 @@
                 <?php if($profilByIdLogin){?>
                 <button type="button" data-toggle="modal" style="width:90%" data-target="#joinRoom">Join</button>
                 <?php }else{?>
-
                 <button type="button" style="width:90%" class="joinnoprofile">Join</button>
                 <?php }?>
             </div>

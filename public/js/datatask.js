@@ -100,10 +100,34 @@ $(document).ready(function () {
     });
     return false;
   });
+  $(".formAcceptTask").submit(function (e) {
+    e.preventDefault();
+    $.ajax({
+      type: "post",
+      url: $(this).attr("action"),
+      data: $(this).serialize(),
+      dataType: "json",
+      success: function (response) {
+        if (response.success) {
+          Swal.fire({
+            icon: "success",
+            title: "Berhasil",
+            text: response.success,
+          }).then(function () {
+            window.location.href = "/home/datatask/" + response.id_task + "/" + response.id_room;
+          });
+        }
+      },
+      error: function (xhr, ajaxOptions, thrownError) {
+        alert(xhr.status + "\n" + xhr.responseText + "\n" + thrownError);
+      },
+    });
+    return false;
+  });
 });
 $(".detailKirim").on("click", function () {
   let id = $(this).attr("data-id");
-
+  console.log(id);
   $.ajax({
     type: "get",
     url: "/home/getDetailKirim",
@@ -113,10 +137,12 @@ $(".detailKirim").on("click", function () {
     dataType: "json",
     success: function (response) {
       $(".body-detail-task-kirim").html(response.data);
+      $("#id_kirim").val(id);
     },
     error: function (xhr, ajaxOptions, thrownError) {},
   });
 });
+
 $(".detailSubmit").on("click", function () {
   let id = $(this).attr("data-id");
 
@@ -193,6 +219,46 @@ $(".cancelTask").on("click", function () {
         data: {
           id_task: id_task,
           id_room: id_room,
+        },
+        dataType: "json",
+        success: function (response) {
+          if (response.success) {
+            Swal.fire({
+              icon: "success",
+              title: "Berhasil",
+              text: response.success,
+            }).then(function () {
+              window.location.href = "/home/datatask/" + id_task + "/" + id_room;
+            });
+          }
+        },
+        error: function (xhr, ajaxOptions, thrownError) {
+          alert(xhr.status + "\n" + xhr.responseText + "\n" + thrownError);
+        },
+      });
+    }
+  });
+});
+
+$(".deleteDetailTask").on("click", function () {
+  let id_task = $(".id_task").val();
+  let id_room = $(".id_room").val();
+  let id = $(this).attr("data-id");
+  Swal.fire({
+    title: "Yakin Hapus?",
+    text: "Hapus?",
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonColor: "#3085d6",
+    cancelButtonColor: "#d33",
+    confirmButtonText: "Ya,Kirim",
+  }).then((result) => {
+    if (result.isConfirmed) {
+      $.ajax({
+        type: "post",
+        url: "/home/hapusDetailTask",
+        data: {
+          id: id,
         },
         dataType: "json",
         success: function (response) {

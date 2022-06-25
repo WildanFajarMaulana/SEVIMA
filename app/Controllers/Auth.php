@@ -146,6 +146,11 @@ class Auth extends BaseController
                                 'successGuru'=>'anda login sebagai Guru'
                              ];    
                             } 
+                            else if($user['role']=='admin'){
+                                $msg=[
+                                   'successAdmin'=>'anda login sebagai Admin'
+                                ];    
+                               } 
                             else{
                                $msg=[
                                 'successNull'=>'null'

@@ -408,7 +408,12 @@ class DefaultPage extends BaseController
                 'comment'=>$this->request->getPost('komentar'),
                 'foto'=>$data['profilByIdLogin']['foto']
             ];
-            $this->DataCommentRoomModel->save($dataKomentar);
+            if($this->request->getPost('komentar')==''){
+
+            }else{
+                $this->DataCommentRoomModel->save($dataKomentar);
+            }
+            
             $msg=[
                 'success'=>'berhasil'
             ];
@@ -621,17 +626,70 @@ class DefaultPage extends BaseController
             exit('request tidak dapat dilakukan');
         }
     }
-    public function getDetailKiirm(){
+    public function getDetailKirim(){
         if($this->request->isAjax()){
-            $data['getKomentar']=$this->DataCommentRoomModel->getKomentarByidtask($this->request->getGet('id_task'));
+            $data['detailTask']=$this->DataRoomSiswaModel->getDataRoomByid($this->request->getGet('id'));
             
             $msg=[
-               'data'=>view('component/komentar',$data)
+               'data'=>view('component/detailTask',$data)
             ];
-            $msg['token']=csrf_hash();
+            
             echo json_encode($msg);
         }else{
             exit('request tidak dapat dilakukan');
        }
+    }
+    public function acceptTask(){
+        if($this->request->isAjax()){
+            $data['dataKirim']=$this->KirimModel->getDataKirimFirst($this->request->getPost('id_kirim'));
+            $dataKirim=[
+                'id'=>$this->request->getPost('id_kirim'),
+                'nilai'=>$this->request->getPost("nilai"),
+                'status'=>'selesai'
+            ];
+            $this->KirimModel->save($dataKirim);
+            $resultSubmitSiswa=$this->DataRoomSiswaModel->getResultSubmit($this->request->getPost('id_task'),$data['dataKirim']['id_siswa']);
+        
+            $totalSubmitFilter=$this->DataRoomSiswaModel->totalSubmitFilter($this->request->getPost('id_task'),$data['dataKirim']['id_siswa']);
+            $dataSubmit=array();
+            $dataSubmit2=[];
+            foreach($resultSubmitSiswa as $ds){
+                array_push($dataSubmit,array(
+                    'id'=>$ds['id'],
+                    'status'=>'selesai',
+                    
+                ));
+                $dataSubmit2=[
+                    'id'=>$ds['id'],
+                    'status'=>'selesai',
+                    
+                ];
+            }
+            if($totalSubmitFilter==1){
+                $this->DataRoomSiswaModel->save($dataSubmit2);
+            }else{
+                $this->DataRoomSiswaModel->updateBatch($dataSubmit,'id');
+            }
+            $msg=[
+                'success'=>'Berhasil Accept',
+                'id_task'=>$this->request->getPost('id_task'),
+                'id_room'=>$data['dataKirim']['id_room']
+            ];
+            echo json_encode($msg);
+        }else{
+            exit('request tidak dapat dilakukan');
+       }
+    }
+    public function hapusDetailTask(){
+        if($this->request->isAJAX()){
+            $this->DataRoomSiswaModel->deleteTask($this->request->getPost('id'));
+            $msg=[
+                'success'=>'Detail Task Berhasil Dihapus'
+            ];
+           
+            echo json_encode($msg);
+        }else{
+             exit('request tidak dapat dilakukan');
+        }
     }
 }

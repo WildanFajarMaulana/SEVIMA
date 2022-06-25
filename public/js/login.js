@@ -63,6 +63,21 @@ $(document).ready(function () {
             }).then(function () {
               window.location.href = "/home/";
             });
+          } else if (response.successAdmin) {
+            $("#usernameInput").val("");
+            $("#passwordInput").val("");
+            $("#username").addClass("d-none");
+            $("#password").addClass("d-none");
+            Swal.fire({
+              type: "success",
+              title: "Login Berhasil!",
+              text: "Anda akan di arahkan dalam 3 Detik",
+              timer: 3000,
+              showCancelButton: false,
+              showConfirmButton: false,
+            }).then(function () {
+              window.location.href = "/admin/";
+            });
           } else if (response.successNull) {
             $("#usernameInput").val("");
             $("#passwordInput").val("");

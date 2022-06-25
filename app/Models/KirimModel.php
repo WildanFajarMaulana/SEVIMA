@@ -19,7 +19,8 @@ class KirimModel extends Model
         return $this->where(['id_task'=>$id_task,"id_room"=>$id_room,"id_siswa"=>$id_siswa])->first();
     }
     public function getDataKirimSiswaAll($id_task,$id_room){
-        return $this->where(['id_task'=>$id_task,"id_room"=>$id_room])->find();
+        $where="id_task='$id_task' AND id_room='$id_room' AND status !='selesai'";
+        return $this->where($where)->find();
     }
     public function deteleKirim($id_task,$id_room,$id_siswa){
         $sql="DELETE FROM tb_kirim WHERE id_task='$id_task' AND id_room='$id_room' AND id_siswa='$id_siswa'";
@@ -27,6 +28,9 @@ class KirimModel extends Model
     }
     public function getDataNewKirim($id_task,$id_room,$id_siswa){
         return $this->where(['id_task'=>$id_task,"id_room"=>$id_room,"id_siswa"=>$id_siswa])->orderBy('id','DESC')->first();
+    }
+    public function getDataKirimFirst($id_kirim){
+        return $this->where(['id'=>$id_kirim])->first();
     }
     
 }
