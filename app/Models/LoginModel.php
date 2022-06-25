@@ -14,6 +14,11 @@ class LoginModel extends Model
     protected $useTimestamps = true;
     protected $createdField  = 'created_at';
     protected $updatedField  = 'updated_at';
+
+    public function getUser($username){
+        $where = "username='$username'";
+        return $this->where($where)->first();
+      }
    
 
     

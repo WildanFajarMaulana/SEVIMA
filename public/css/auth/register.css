@@ -8,25 +8,28 @@ body {
 .register--box {
   border-radius: 10px;
   box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
-  margin: 8% auto;
-  height: 550px;
+  margin: 5% auto;
+  min-height: 600px;
   width: 50%;
   background-color: white;
 }
 .register--row {
-  padding: 10%;
+  padding: 8%;
 }
 .button--login {
   margin-top: 30px;
 }
 .button--login > button {
   color: white;
-  background-color: #8f2828;
+  background-color: #e03e3e;
   width: 100%;
 }
 .button--login > button:hover {
   background-color: transparent;
 }
 span {
-  color: #8f2828;
+  color: #e03e3e;
+}
+p {
+  color: red;
 }
