@@ -6,19 +6,27 @@
 <div class="container">
     <div class="row">
         <div class="col">
-            <i class="fa-solid fa-arrow-left-long"></i>
+            <a href="/home/learning" style="color:black"><i class="fa-solid fa-arrow-left-long"></i></a>
         </div>
     </div>
     <div class="row">
-        <div class="col ">
+        <div class="col-md ">
             <?php if($dataRoomGuru){ ?>
             <div class="button--addtaskdata mt-5">
                 <p>Add Your Task Now</p>
                 <button type="button" data-toggle="modal" data-target="#addTask">Add Task</button>
             </div>
-            <div class="box--task">
+            <?php  foreach($dataRoomGuru as $dr){?>
 
+            <div class="box--task">
+                <i class="fa-solid fa-trash-can btn-deletetask" data-id="<?= $dr['id'] ?>"></i>
+                <h5><?= $dr['judul'] ?></h5>
+                <p><?= $dr['sub_judul'] ?></p>
+                <button> <a href="/home/datatask/<?= $dr['id']?>"
+                        style="color:black;text-decoration:none">Action</a></button>
             </div>
+            <?php }?>
+
             <?php }else{?>
             <div class="button--addtask">
                 <p>Add Your Task Now</p>
@@ -26,6 +34,26 @@
             </div>
             <?php }?>
         </div>
+        <?php if($dataRoomGuru){ ?>
+        <div class="col-md-4">
+            <div class="box--inforoom">
+                <h5>List Siswa</h5>
+                <?php if($daftarSiswa){ ?>
+                <?php foreach($daftarSiswa as $ds){?>
+                <div class="profilSiswa">
+                    <img src="/images/defaultprofile.jpg" alt="">
+                    <p>Wildan Fajar Maulana</p>
+                    <p>Siswa</p>
+                </div>
+                <?php }?>
+                <?php }else{?>
+                <p style="color:grey">No users registered yet</p>
+                <?php }?>
+
+            </div>
+
+        </div>
+        <?php }?>
     </div>
     <div class="modal fade" id="addTask" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">

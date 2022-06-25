@@ -1,0 +1,92 @@
+.taskdetail {
+  width: 100%;
+  min-height: 100px;
+  float: left;
+  background-color: white;
+  box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;
+  margin-top: 30px;
+  margin-bottom: 30px;
+  padding: 30px;
+}
+
+.taskdetail > :nth-child(1) {
+  float: left;
+  margin-right: 30px;
+}
+.tasksubmit {
+  width: 100%;
+  min-height: 100px;
+  background-color: white;
+  box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;
+  margin-top: 30px;
+  margin-bottom: 30px;
+  padding: 30px;
+}
+.fa-arrow-left-long {
+  margin-top: 20px;
+  font-size: 30px;
+}
+.tasksubmit > button {
+  background-color: #e03e3e;
+  color: white;
+  width: 50%;
+}
+.tasksubmit > button:hover {
+  background-color: transparent;
+  color: black;
+  width: 50%;
+}
+.commenttask {
+  width: 100%;
+  min-height: 100px;
+  float: left;
+  background-color: white;
+  box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;
+  margin-top: 30px;
+  margin-bottom: 30px;
+  padding: 30px;
+}
+.formtask > input {
+  width: 70%;
+  float: left;
+  height: 30px;
+}
+.formtask > button {
+  background-color: #e03e3e;
+  color: white;
+  margin-left: 10px;
+  width: 20%;
+}
+.formtask > button:hover {
+  background-color: transparent;
+  color: black;
+  width: 20%;
+}
+.profilSiswa > img {
+  object-position: center;
+  object-fit: cover;
+  border-radius: 100%;
+  height: 50px;
+  margin-right: 20px;
+  width: 50px;
+  float: left;
+}
+.profilSiswa > :nth-child(2) {
+  padding-left: 50px;
+  margin-top: 30px;
+}
+.profilSiswa > :nth-child(3) {
+  font-size: 13px;
+  margin-top: -10px;
+  color: grey;
+}
+.profilSiswa > :nth-child(4) {
+  font-size: 13px;
+  color: grey;
+  float: left;
+}
+.role-span {
+  color: grey;
+  font-size: 13px;
+  margin-left: 10px;
+}

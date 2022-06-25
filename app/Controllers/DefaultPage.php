@@ -4,16 +4,22 @@ namespace App\Controllers;
 use App\Models\ProfileModel;
 use App\Models\RoomGuruModel;
 use App\Models\DataRoomGuruModel;
-
+use App\Models\RoomSiswaModel;
+use App\Models\DataCommentRoomModel;
 class DefaultPage extends BaseController
 {
     protected $ProfileModel;
     protected $RoomGuruModel;
     protected $DataRoomGuruModel;
+    protected $RoomSiswaModel;
+    protected $DataCommentRoomModel;
     public function __construct(){
         $this->RoomGuruModel = new RoomGuruModel();
         $this->ProfileModel = new ProfileModel();
+        $this->RoomSiswaModel = new RoomSiswaModel();
         $this->DataRoomGuruModel = new DataRoomGuruModel();
+        $this->DataCommentRoomModel = new DataCommentRoomModel();
+
     }
     
     public function index()
@@ -263,6 +269,7 @@ class DefaultPage extends BaseController
     {
        $data['profilByIdLogin']=$this->ProfileModel->getProfileByUserLogin(session()->get('id'));
        $data['dataRoomGuru']=$this->DataRoomGuruModel->getDataRoomByidguruIdroom( $data['profilByIdLogin']['id'],$id);
+       $data['daftarSiswa']=$this->RoomSiswaModel->getDaftarSiswaByidroom($id);
        $data['roomGuru']=$this->RoomGuruModel->getRoomGuruByIdGuru($data['profilByIdLogin']['id']);
        $data['title']='W-Clashroom | DataRoom';
        $data['js']='dataroom.js';
@@ -340,5 +347,60 @@ class DefaultPage extends BaseController
         }else{
             exit("request tidak dapat dilakukan");
         }
+    }
+    public function deleteTask(){
+        if($this->request->isAJAX()){
+            $this->DataRoomGuruModel->deleteTask($this->request->getPost('id_task'));
+            $msg=[
+                'success'=>'Menu Berhasil Dihapus'
+            ];
+            $msg['token']=csrf_hash();
+            echo json_encode($msg);
+        }else{
+             exit('request tidak dapat dilakukan');
+        }
+    }
+    
+    public function datatask($id_task)
+    {
+       $data['profilByIdLogin']=$this->ProfileModel->getProfileByUserLogin(session()->get('id'));
+       $data['getDataTask']=$this->DataRoomGuruModel->getDatatask($id_task);
+       $data['title']='W-Clashroom | Datatask';
+       $data['js']='datatask.js';
+       $data['css']='datatask.css';
+       $data['id_task']=$id_task;
+       return view('defaultPage/datatask',$data);
+    }
+    public function tambahKomentar(){
+        if($this->request->isAjax()){
+            $data['profilByIdLogin']=$this->ProfileModel->getProfileByUserLogin(session()->get('id'));
+            $dataKomentar=[
+                'id_user'=>$data['profilByIdLogin']['id'],
+                'id_dataroom'=>$this->request->getPost('id_task'),
+                'role'=>session()->get('role'),
+                'comment'=>$this->request->getPost('komentar'),
+                'foto'=>$data['profilByIdLogin']['foto']
+            ];
+            $this->DataCommentRoomModel->save($dataKomentar);
+            $msg=[
+                'success'=>'berhasil'
+            ];
+            echo json_encode($msg);
+        }else{
+             exit('request tidak dapat dilakukan');
+        }
+    }
+    public function getKomentar(){
+        if($this->request->isAjax()){
+            $data['getKomentar']=$this->DataCommentRoomModel->getKomentarByidtask($this->request->getGet('id_task'));
+            
+            $msg=[
+               'data'=>view('component/komentar',$data)
+            ];
+            $msg['token']=csrf_hash();
+            echo json_encode($msg);
+        }else{
+            exit('request tidak dapat dilakukan');
+       }
     }
 }

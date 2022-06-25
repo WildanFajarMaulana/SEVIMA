@@ -83,3 +83,41 @@ $(document).ready(function () {
     return false;
   });
 });
+
+$(".btn-deletetask").on("click", function () {
+  let id_task = $(this).attr("data-id");
+
+  Swal.fire({
+    title: "Yakin Hapus Task?",
+    text: "Kamu Tidak Bisa Mengembalikannya Lagi!",
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonColor: "#3085d6",
+    cancelButtonColor: "#d33",
+    confirmButtonText: "Ya,Hapus",
+  }).then((result) => {
+    if (result.isConfirmed) {
+      $.ajax({
+        type: "post",
+        url: "/home/deleteTask",
+        data: {
+          id_task: id_task,
+        },
+        dataType: "json",
+        success: function (response) {
+          $(".csrfCafe").val(response.token);
+          if (response.success) {
+            Swal.fire({
+              icon: "success",
+              title: "Berhasil",
+              text: response.success,
+            }).then(function () {
+              window.location.href = "/home/dataroom/" + $("#id_room").val();
+            });
+          }
+        },
+        error: function (xhr, ajaxOptions, thrownError) {},
+      });
+    }
+  });
+});
