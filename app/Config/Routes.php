@@ -49,9 +49,13 @@ $routes->post('/auth/logout', 'Auth::logout');
 $routes->get('/home/', 'DefaultPage::index');
 $routes->get('/home/profile', 'DefaultPage::profile');
 $routes->get('/home/getDetailProfile', 'DefaultPage::getDetailProfile');
+$routes->get('/home/learning', 'DefaultPage::learning');
+
 
 $routes->post('/home/editProfile', 'DefaultPage::editProfile');
 $routes->post('/home/addProfile', 'DefaultPage::tambahProfile');
+$routes->post('/home/addRoomLearning', 'DefaultPage::tambahRoomLearning');
+
 
 
 

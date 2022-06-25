@@ -43,6 +43,10 @@
         text-align: center;
         color: grey;
     }
+
+    .activeLink {
+        border-bottom: 2px solid #e03e3e;
+    }
     </style>
 
     <title><?= $title ?></title>

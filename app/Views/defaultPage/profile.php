@@ -6,7 +6,7 @@
     <?php if($profile){ ?>
     <div class="row box--profile">
         <div class="col left--profile">
-            <div class=" card" style="width: 18rem;">
+            <div class=" card" style="width: 28rem;">
                 <img src="/images/<?= $profile['foto'] ?>" class="card-img-top" alt="..." width="100%">
                 <div class="card-body">
                     <h5>Detail Profile</h5>

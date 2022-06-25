@@ -7,15 +7,17 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ml-auto ">
-                <li class="nav-item active">
-                    <a class="nav-link" href="/home">Home <span class="sr-only">(current)</span></a>
+                <li class="nav-item ">
+                    <a class="nav-link <?= $title=='W-Clashroom | Home'  ? 'activeLink' : ''?>" href="/home">Home</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Learning</a>
+                    <a class="nav-link <?= $title=='W-Clashroom | Learning'  ? 'activeLink' : ''?>"
+                        href="/home/learning">Learning</a>
                 </li>
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
-                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <a class="nav-link dropdown-toggle <?= $title=='W-Clashroom | Profile'  ? 'activeLink' : ''?>"
+                        href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true"
+                        aria-expanded="false">
                         Setting
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">

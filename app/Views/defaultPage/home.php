@@ -24,8 +24,14 @@
             </div>
 
             <div class="boxButton">
+                <?php if(session()->get('role')=="siswa"){?>
+                <button style="width:80%">Join</button>
+                <?php }else{?>
                 <button>Join</button>
                 <button>Create</button>
+                <?php }?>
+
+
             </div>
         </div>
     </div>

@@ -4,7 +4,7 @@
     <div class="container">
         <div class="row login--row">
             <div class="col">
-                <h5>W-<span>CLASHROOM</span></h5>
+                <h5>W-<span>CLASSROOM</span></h5>
                 <div class="image--display">
                     <img src="/images/login.svg" alt="" width="80%">
                 </div>

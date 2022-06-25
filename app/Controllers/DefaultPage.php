@@ -2,19 +2,21 @@
 
 namespace App\Controllers;
 use App\Models\ProfileModel;
-
+use App\Models\RoomGuruModel;
 
 class DefaultPage extends BaseController
 {
     protected $ProfileModel;
+    protected $RoomGuruModel;
 
     public function __construct(){
+        $this->RoomGuruModel = new RoomGuruModel();
         $this->ProfileModel = new ProfileModel();
     }
     
     public function index()
     {
-       
+       $data['profilByIdLogin']=$this->ProfileModel->getProfileByUserLogin(session()->get('id'));
        $data['title']='W-Clashroom | Home';
        $data['js']='home.js';
        $data['css']='home.css';
@@ -182,10 +184,76 @@ class DefaultPage extends BaseController
          echo json_encode($msg);
        }
 
+        }else{
+            exit('request tidak dapat dilakukan');
+        }
+    }
+    public function learning()
+    {
+       $data['profilByIdLogin']=$this->ProfileModel->getProfileByUserLogin(session()->get('id'));
+       $data['roomGuru']=$this->RoomGuruModel->getRoomGuruByIdGuru($data['profilByIdLogin']['id']);
+       $data['title']='W-Clashroom | Learning';
+       $data['js']='learning.js';
+       $data['css']='learning.css';
+       return view('defaultPage/learning',$data);
+    }
+    public function tambahRoomLearning(){
+        if($this->request->isAjax()){
+            $validation=\Config\Services::validation();
+            $valid=$this->validate([
+                'nama_pembelajaran'=>[
+                    'rules'=>'required',
+                    'errors'=>[
+                        'required'=>'{field} must be filled'
+                        
+                    ]
+                ],
+                 'kelas'=>[
+                        'rules'=>'required',
+                        'errors'=>[
+                            'required'=>'{field} must be filled'
+                        ]
+                ],
+                'kode_room'=>[
+                    'rules'=>'required|is_unique[tb_roomguru.kode_room]',
+                    'errors'=>[
+                        'required'=>'{field} must be filled',
+                        'is_unique'=>'{field}  already use'
+                        
+                    ]
+                ],
+            
+            ]);
 
+              if(!$valid){
+                $msg=[
+                    'errorValid'=>[
+                        'nama_pembelajaran'=>$validation->getError('nama_pembelajaran'),
+                        'kelas'=>$validation->getError('kelas'),
+                        'kode_room'=>$validation->getError('kode_room')
+                    ]
+                ];               
+              }else{
+                $data['profilByIdLogin']=$this->ProfileModel->getProfileByUserLogin(session()->get('id'));
+                $data=[
+                    'id_guru'=>  $data['profilByIdLogin']['id'],
+                    'nama_pembelajaran'=>$this->request->getPost("nama_pembelajaran"),
+                    'kelas'=>$this->request->getPost("kelas"),
+                    'kode_room'=>$this->request->getPost("kode_room"),$this->request->getPost('kode_room'),
+                    'jumlah_siswa'=>0,
+                    'status'=>'open'
+                ];
+                $this->RoomGuruModel->save($data);
 
-   }else{
-       exit('request tidak dapat dilakukan');
-   }
-}
+                $msg=[
+                    'success'=>'Room Berhasil Dibuat'
+                ];
+            
+              }
+              echo json_encode($msg);
+
+        }else{
+            exit("request tidak dapat dilakukan");
+        }
+    }
 }

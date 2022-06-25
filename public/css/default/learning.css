@@ -1,0 +1,41 @@
+.box--learning {
+  margin: 5% auto;
+  width: 50%;
+}
+.box--learning > button {
+  border-radius: 20px;
+  margin-top: 50px;
+  margin-left: 33px;
+  margin-left: 33px;
+  width: 40%;
+  background-color: #e03e3e;
+  color: white;
+}
+.styleValidation {
+  color: red;
+}
+.box--room {
+  width: 100%;
+  height: 200px;
+  background-color: white;
+  margin-top: 30px;
+  margin-left: 10px;
+  margin-right: 10px;
+  margin-bottom: 30px;
+  box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
+}
+span {
+  color: #e03e3e;
+}
+.buttonRoom {
+  border-radius: 20px;
+  margin-top: 20px;
+  width: 20%;
+  background-color: #e03e3e;
+  color: white;
+}
+button:hover {
+  background-color: transparent;
+  color: black;
+  border: 2px solid black;
+}
