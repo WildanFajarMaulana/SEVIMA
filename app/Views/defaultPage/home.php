@@ -27,8 +27,8 @@
                 <?php if(session()->get('role')=="siswa"){?>
                 <button style="width:80%">Join</button>
                 <?php }else{?>
-                <button>Join</button>
-                <button>Create</button>
+
+                <button style="width:80%">Create</button>
                 <?php }?>
 
 

@@ -15,6 +15,8 @@ class DataRoomGuruModel extends Model
     protected $createdField  = 'created_at';
     protected $updatedField  = 'updated_at';
    
-
+    public function getDataRoomByidguruIdroom($id_guru,$id_room){
+        return $this->where(['id_guru'=>$id_guru,'id_room'=>$id_room])->find();
+    }
     
 }

@@ -7,7 +7,7 @@ use CodeIgniter\Model;
 class RoomGuruModel extends Model
 {
     protected $table      = 'tb_roomguru';
-    protected $primaryKey = 'id';
+    protected $primaryKey = 'id_room';
 
     protected $allowedFields = ['id_guru','nama_pembelajaran','kelas','kode_room','jumlah_siswa','status'];
  
@@ -17,6 +17,7 @@ class RoomGuruModel extends Model
    
 
     public function getRoomGuruByIdGuru($id_guru){
-       return  $this->where(['id_guru'=>$id_guru])->find();
+        return $this->join('tb_profile','tb_profile.id=tb_roomguru.id_guru')->where(['id_guru'=>$id_guru])->find();  
     }
+
 }

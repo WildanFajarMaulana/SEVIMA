@@ -12,33 +12,25 @@
             <button type="button" data-toggle="modal" data-target="#addRoom" class="buttonRoom">Create</button>
         </div>
     </div>
+
+
     <div class="row">
-
-        <div class="col box--room">
-
+        <?php foreach($roomGuru as $rg){ ?>
+        <div class="col-md-4">
+            <div class="box--room">
+                <h5><?= $rg['nama_pembelajaran'] ?></h5>
+                <p><?= $rg['kelas'] ?></p>
+                <P><?= $rg['nama'] ?></P>
+                <a href="/home/dataroom/<?= $rg['id_room']?>"><button>Go</button></a>
+            </div>
         </div>
-        <div class="col  box--room">
-
-        </div>
-        <div class="col  box--room">
-
-        </div>
+        <?php }?>
     </div>
-    <div class="row">
 
-        <div class="col box--room">
 
-        </div>
-        <div class="col  box--room">
 
-        </div>
-        <div class="col  box--room">
-
-        </div>
-    </div>
     <?php }else{?>
     <div class="row">
-
         <div class="col">
             <div class="box--learning">
                 <img src="/images/learning.svg" alt="" width="100%">
@@ -48,6 +40,7 @@
         </div>
     </div>
     <?php }?>
+
     <?php }else{?>
     <div class="row">
         <div class="col">

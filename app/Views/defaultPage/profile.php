@@ -22,14 +22,20 @@
             </div>
         </div>
         <div class=" col right--profile">
-            <h4>List Learning</h4>
+            <?php if(session()->get('role')=='guru'){?>
+            <h4>List My Learning Room</h4>
+            <?php foreach($roomGuru as $rg){ ?>
             <div class="boxLearning">
-                <h4>Nama Room</h4>
-                <p>Pembelajaran Matematika</p>
-                <a href="">
+                <h4><?= $rg['nama_pembelajaran'] ?></h4>
+                <p><?= $rg['kelas'] ?></p>
+                <a href="/home/dataroom/<?= $rg['id_room'] ?>">
                     <p class="p-link">Go</p>
                 </a>
             </div>
+            <?php }?>
+            <?php }else{?>
+
+            <?php }?>
         </div>
     </div>
     <div class="modal fade" id="editProfile" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">

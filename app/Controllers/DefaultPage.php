@@ -3,15 +3,17 @@
 namespace App\Controllers;
 use App\Models\ProfileModel;
 use App\Models\RoomGuruModel;
+use App\Models\DataRoomGuruModel;
 
 class DefaultPage extends BaseController
 {
     protected $ProfileModel;
     protected $RoomGuruModel;
-
+    protected $DataRoomGuruModel;
     public function __construct(){
         $this->RoomGuruModel = new RoomGuruModel();
         $this->ProfileModel = new ProfileModel();
+        $this->DataRoomGuruModel = new DataRoomGuruModel();
     }
     
     public function index()
@@ -26,6 +28,7 @@ class DefaultPage extends BaseController
     {
       
        $data['profile']=$this->ProfileModel->getProfileByUserLogin(session()->get('id'));
+       $data['roomGuru']=$this->RoomGuruModel->getRoomGuruByIdGuru($data['profile']['id']);
        $data['title']='W-Clashroom | Profile';
        $data['js']='profile.js';
        $data['css']='profile.css';
@@ -247,6 +250,88 @@ class DefaultPage extends BaseController
 
                 $msg=[
                     'success'=>'Room Berhasil Dibuat'
+                ];
+            
+              }
+              echo json_encode($msg);
+
+        }else{
+            exit("request tidak dapat dilakukan");
+        }
+    }
+    public function dataroom($id)
+    {
+       $data['profilByIdLogin']=$this->ProfileModel->getProfileByUserLogin(session()->get('id'));
+       $data['dataRoomGuru']=$this->DataRoomGuruModel->getDataRoomByidguruIdroom( $data['profilByIdLogin']['id'],$id);
+       $data['roomGuru']=$this->RoomGuruModel->getRoomGuruByIdGuru($data['profilByIdLogin']['id']);
+       $data['title']='W-Clashroom | DataRoom';
+       $data['js']='dataroom.js';
+       $data['css']='dataroom.css';
+       $data['id_room']=$id;
+       return view('defaultPage/dataroom',$data);
+    }
+    public function tambahTask(){
+        if($this->request->isAjax()){
+            $validation=\Config\Services::validation();
+            $valid=$this->validate([
+                'judul'=>[
+                    'rules'=>'required',
+                    'errors'=>[
+                        'required'=>'{field} must be filled'
+                        
+                    ]
+                ],
+                 'sub_judul'=>[
+                        'rules'=>'required',
+                        'errors'=>[
+                            'required'=>'{field} must be filled'
+                        ]
+                ],
+                'gambar'=>[
+                    'rules'=>'max_size[gambar,1024]|is_image[gambar]|mime_in[gambar,image/jpg,image/jpeg,image/png]',
+                    'errors'=>[
+                        'max_size'=>'image size is too big',
+                        'is_image'=>'what you choose is not a picture',
+                        'mime_in'=>'Incorrect format'
+                    ]
+            ]
+            
+            ]);
+
+              if(!$valid){
+                $msg=[
+                    'error'=>[
+                        'judul'=>$validation->getError('judul'),
+                        'sub_judul'=>$validation->getError('sub_judul'),
+                        'gambar'=>$validation->getError('gambar')
+                    ]
+                ];               
+              }else{
+                $data['profilByIdLogin']=$this->ProfileModel->getProfileByUserLogin(session()->get('id'));
+                 
+                $fileFoto=$this->request->getFile('gambar');
+                
+                if($fileFoto==''){
+                    $namaFoto='';
+                }else{
+                    $namaFoto=$fileFoto->getRandomName();
+               
+                    $fileFoto->move('images',$namaFoto);
+                }
+               
+                
+               
+                $data=[
+                    'id_room'=>$this->request->getPost('id_room'),
+                    'id_guru'=>$data['profilByIdLogin']['id'],
+                    'judul'=>$this->request->getPost("judul"),
+                    'sub_judul'=>$this->request->getPost("sub_judul"),
+                    'gambar'=>$namaFoto,
+                ];
+                $this->DataRoomGuruModel->save($data);
+
+                $msg=[
+                    'success'=>'Task Berhasil Ditambahkan'
                 ];
             
               }

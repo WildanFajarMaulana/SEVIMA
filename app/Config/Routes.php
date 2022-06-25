@@ -50,12 +50,14 @@ $routes->get('/home/', 'DefaultPage::index');
 $routes->get('/home/profile', 'DefaultPage::profile');
 $routes->get('/home/getDetailProfile', 'DefaultPage::getDetailProfile');
 $routes->get('/home/learning', 'DefaultPage::learning');
+$routes->get('/home/dataroom/(:any)', 'DefaultPage::dataroom/$1');
+
 
 
 $routes->post('/home/editProfile', 'DefaultPage::editProfile');
 $routes->post('/home/addProfile', 'DefaultPage::tambahProfile');
 $routes->post('/home/addRoomLearning', 'DefaultPage::tambahRoomLearning');
-
+$routes->post('/home/addTask', 'DefaultPage::tambahTask');
 
 
 
