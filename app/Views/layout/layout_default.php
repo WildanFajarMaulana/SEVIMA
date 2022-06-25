@@ -74,6 +74,25 @@
         integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
     <script src="/library/sweetalert/package/dist/sweetalert2.all.js"></script>
     <script src="/js/<?= $js ?>"></script>
+    <script>
+    $("#logout").on('click', function() {
+        $.ajax({
+            type: "post",
+            url: "/auth/logout",
+            dataType: "json",
+            success: function(response) {
+                Swal.fire({
+                    type: "success",
+                    title: "Logout!",
+                    text: response.data,
+                }).then(function() {
+                    window.location.href = "/";
+                });
+            },
+            error: function(xhr, ajaxOptions, thrownError) {},
+        });
+    })
+    </script>
 </body>
 
 </html>

@@ -13,9 +13,7 @@ class Auth extends BaseController
     }
     public function index()
     {
-        if(session()->get('id') && session()->get('username') && session()->get('role')){
-            return redirect()->to('/app/home.html'); 
-       }
+       
        $data['title']='W-Clashroom | Login';
        $data['js']='login.js';
        $data['css']='login.css';
@@ -23,9 +21,7 @@ class Auth extends BaseController
     }
     public function register()
     {
-        if(session()->get('id') && session()->get('username') && session()->get('role')){
-            return redirect()->to('/app/home.html'); 
-       }
+       
        $data['title']='W-Clashroom | Register';
        $data['js']='register.js';
        $data['css']='register.css';
@@ -39,7 +35,7 @@ class Auth extends BaseController
                 'username'=>[
                     'rules'=>'required|is_unique[tb_login.username]',
                     'errors'=>[
-                        'required'=>'{field}  harus diisi',
+                        'required'=>'{field} must be filled',
                         'is_unique'=>'{field}  sudah terdaftar'
                         
                     ]
@@ -47,21 +43,21 @@ class Auth extends BaseController
                  'password'=>[
                         'rules'=>'required|min_length[5]',
                         'errors'=>[
-                            'required'=>'{field}  harus diisi',
+                            'required'=>'{field} must be filled',
                             'min_length'=>'isi password minimal 5'
                         ]
                 ],
                  'konfirmasiPassword'=>[
                         'rules'=>'required|matches[password]',
                         'errors'=>[
-                            'required'=>'{field}  harus diisi',
+                            'required'=>'{field} must be filled',
                             'matches'=>'{field}  tidak sama'
                         ]
                 ],
                 'role'=>[
                     'rules'=>'required',
                     'errors'=>[
-                        'required'=>'{field}  harus diisi'
+                        'required'=>'{field} must be filled'
                         
                     ]
                 ]
@@ -99,9 +95,7 @@ class Auth extends BaseController
         }
     }
     public function prosesLogin(){
-        if(session()->get('id') && session()->get('username')){
-            return redirect()->to('/app/beranda.html'); 
-       }
+        
         if($this->request->isAJAX()){
 
             $validation=\Config\Services::validation();
@@ -109,13 +103,13 @@ class Auth extends BaseController
                 'username'=>[
                         'rules'=>'required',
                         'errors'=>[
-                            'required'=>'{field}  harus diisi'
+                            'required'=>'{field} must be filled'
                         ]
                 ],
                  'password'=>[
                         'rules'=>'required|',
                         'errors'=>[
-                            'required'=>'{field}  harus diisi'
+                            'required'=>'{field} must be filled'
                           
                         ]
                 ]
@@ -174,6 +168,22 @@ class Auth extends BaseController
               echo json_encode($msg);
         }else{
             exit("request tidak dapat dilakukan");
+        }
+        
+    }
+    public function logout(){
+         
+        if($this->request->isAJAX()){
+        
+            session()->destroy();
+            $msg=[
+                'data'=>'Logout Berhasil'
+            ];
+
+         
+            echo json_encode($msg);
+        }else{
+            exit('request tidak dapat dilakukan');
         }
         
     }

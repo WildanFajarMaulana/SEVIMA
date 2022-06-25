@@ -46,7 +46,7 @@ $(document).ready(function () {
               showCancelButton: false,
               showConfirmButton: false,
             }).then(function () {
-              window.location.href = "/app/beranda.html";
+              window.location.href = "/home/";
             });
           } else if (response.successGuru) {
             $("#usernameInput").val("");
@@ -61,7 +61,7 @@ $(document).ready(function () {
               showCancelButton: false,
               showConfirmButton: false,
             }).then(function () {
-              window.location.href = "/petugas/managePesanan.html";
+              window.location.href = "/home/";
             });
           } else if (response.successNull) {
             $("#usernameInput").val("");

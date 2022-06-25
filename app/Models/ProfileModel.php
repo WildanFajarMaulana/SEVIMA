@@ -14,7 +14,10 @@ class ProfileModel extends Model
     protected $useTimestamps = true;
     protected $createdField  = 'created_at';
     protected $updatedField  = 'updated_at';
-   
+    
+    public function  getProfileByUserLogin($id_login){
+    return $this->where(['id_login'=>$id_login])->first();
+    } 
 
     
 }

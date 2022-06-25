@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 25, 2022 at 04:02 AM
+-- Generation Time: Jun 25, 2022 at 11:06 AM
 -- Server version: 10.4.22-MariaDB
 -- PHP Version: 7.4.28
 
@@ -76,12 +76,19 @@ CREATE TABLE `tb_dataroomsiswa` (
 
 CREATE TABLE `tb_login` (
   `id` int(11) NOT NULL,
-  `username` int(11) NOT NULL,
-  `password` int(11) NOT NULL,
-  `role` int(11) NOT NULL,
+  `username` varchar(100) NOT NULL,
+  `password` varchar(100) NOT NULL,
+  `role` varchar(50) NOT NULL,
   `created_at` datetime NOT NULL,
   `updated_at` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `tb_login`
+--
+
+INSERT INTO `tb_login` (`id`, `username`, `password`, `role`, `created_at`, `updated_at`) VALUES
+(4, 'wildan', '$2y$10$3T2CUs3fCU2V8wMGXtNV7uQle7UmiO9pRF4vo/cLukcHGmQ.BKYS6', 'guru', '2022-06-24 22:38:44', '2022-06-24 22:38:44');
 
 -- --------------------------------------------------------
 
@@ -98,6 +105,13 @@ CREATE TABLE `tb_profile` (
   `created_at` datetime NOT NULL,
   `updated_at` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Dumping data for table `tb_profile`
+--
+
+INSERT INTO `tb_profile` (`id`, `id_login`, `nama`, `foto`, `alamat`, `created_at`, `updated_at`) VALUES
+(2, 4, 'wildan fajar ms', '1656147043_b8bc3238606f85abc2e0.jpg', 'jl.simpang sulfat selatanss', '2022-06-25 03:25:59', '2022-06-25 03:50:43');
 
 -- --------------------------------------------------------
 
@@ -185,13 +199,13 @@ ALTER TABLE `tb_dataroomsiswa`
 -- AUTO_INCREMENT for table `tb_login`
 --
 ALTER TABLE `tb_login`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `tb_profile`
 --
 ALTER TABLE `tb_profile`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `tb_roomguru`

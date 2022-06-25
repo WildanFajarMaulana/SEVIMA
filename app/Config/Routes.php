@@ -40,13 +40,21 @@ $routes->set404Override();
 $routes->get('/', 'Auth::index');
 $routes->get('/register', 'Auth::register');
 
-// DEFAULT PAGE
-$routes->get('/home/', 'DefaultPage::index');
-$routes->get('/home/profile', 'DefaultPage::profile');
-
 
 $routes->post('/auth/register', 'Auth::prosesRegister');
 $routes->post('/auth/login', 'Auth::prosesLogin');
+$routes->post('/auth/logout', 'Auth::logout');
+
+// DEFAULT PAGE
+$routes->get('/home/', 'DefaultPage::index');
+$routes->get('/home/profile', 'DefaultPage::profile');
+$routes->get('/home/getDetailProfile', 'DefaultPage::getDetailProfile');
+
+$routes->post('/home/editProfile', 'DefaultPage::editProfile');
+$routes->post('/home/addProfile', 'DefaultPage::tambahProfile');
+
+
+
 /*
  * --------------------------------------------------------------------
  * Additional Routing
