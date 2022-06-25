@@ -9,13 +9,13 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css"
         integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
-
-    <title>Hello, world!</title>
+    <link rel="stylesheet" href="/css/auth/<?= $css ?>">
+    <title><?= $title ?></title>
 </head>
 
 <body>
-    <h1>Hello, world!</h1>
-    <i class="fa-solid fa-house"></i>
+
+    <?= $this->renderSection('content'); ?>
 
     <!-- Optional JavaScript; choose one of the two! -->
 
@@ -35,6 +35,7 @@
 
 
     <script src="https://kit.fontawesome.com/e7278537ec.js" crossorigin="anonymous"></script>
+    <script src="<?= $js ?>"></script>
 </body>
 
 </html>
