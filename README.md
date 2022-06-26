@@ -1,3 +1,10 @@
+#Aplikasi e-classroom
+ *admin 
+  --username:admin
+  --password:admin
+  *guru/siswa
+  --bisa dengan register account pada halaman register
+
 # CodeIgniter 4 Application Starter
 
 ## What is CodeIgniter?
