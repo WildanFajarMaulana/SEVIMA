@@ -68,7 +68,7 @@
                 <input type="hidden" name="id_task" class="id_task" value="<?= $id_task ?>">
 
                 <input type="hidden" name="id_room" class="id_room" value="<?= $id_room ?>">
-                <p>nilai: <?= $kirimJawaban['nilai']==0?'Wait': $kirimJawaban['nilai']?></p>
+                <p>nilai: <?= $kirimJawaban['nilai']==0?'wait': $kirimJawaban['nilai']?></p>
                 <p></p>
                 <?php }else{?>
                 <button type="button" data-toggle="modal" data-target="#submitTask">Submit Task</button>
