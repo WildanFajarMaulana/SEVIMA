@@ -4,6 +4,8 @@
   --password:admin
   *guru/siswa
   --bisa dengan register account pada halaman register
+  
+  *donwload sweetalert dan taruh di public/library
 
 # CodeIgniter 4 Application Starter
 
